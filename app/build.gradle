@@ -38,7 +38,7 @@ dependencies {
     compile project(':odoo-rpc-v3')
 }
 
-apply plugin: 'com.google.gms.google-services'
+// apply plugin: 'com.google.gms.google-services'
 
 /**
  * Application Package checker.
