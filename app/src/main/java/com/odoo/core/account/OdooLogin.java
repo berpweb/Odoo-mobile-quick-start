@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.odoo.App;
+import com.odoo.MainActivity;
 import com.odoo.OdooActivity;
 import com.odoo.R;
 import com.odoo.base.addons.res.ResCompany;
@@ -100,7 +101,8 @@ public class OdooLogin extends AppCompatActivity implements View.OnClickListener
     }
 
     private void startOdooActivity() {
-        startActivity(new Intent(this, OdooActivity.class));
+        // startActivity(new Intent(this, OdooActivity.class));
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 
