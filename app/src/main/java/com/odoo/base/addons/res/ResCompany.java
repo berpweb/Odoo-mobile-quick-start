@@ -20,6 +20,7 @@
 package com.odoo.base.addons.res;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.odoo.core.orm.ODataRow;
 import com.odoo.core.orm.OModel;
@@ -29,6 +30,7 @@ import com.odoo.core.support.OUser;
 
 public class ResCompany extends OModel {
     public static final String TAG = ResCompany.class.getSimpleName();
+    public static final String AUTHORITY = "com.odoo.core.provider.res_company";
 
     OColumn name = new OColumn("Name", OVarchar.class);
     OColumn currency_id = new OColumn("Currency", ResCurrency.class,
@@ -55,6 +57,11 @@ public class ResCompany extends OModel {
                 getUser().getCompanyId()));
         return row.getM2ORecord("currency_id").browse().getInt(OColumn.ROW_ID);
 
+    }
+
+    @Override
+    public Uri uri() {
+        return buildURI(AUTHORITY);
     }
 
     @Override

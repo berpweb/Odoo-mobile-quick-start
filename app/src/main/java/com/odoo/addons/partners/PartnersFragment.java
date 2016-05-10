@@ -1,9 +1,5 @@
 package com.odoo.addons.partners;
 
-
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -13,6 +9,8 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -26,10 +24,7 @@ import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.odoo.AppBaseFragment;
 import com.odoo.MainActivity;
 import com.odoo.R;
-import com.odoo.Utils;
 import com.odoo.base.addons.res.ResPartner;
-import com.odoo.core.service.receivers.ISyncFinishReceiver;
-import com.odoo.core.support.sync.SyncUtils;
 import com.odoo.core.utils.BitmapUtils;
 
 import java.util.ArrayList;
@@ -49,25 +44,13 @@ public class PartnersFragment extends AppBaseFragment implements LoaderManager.L
     @BindView(R.id.rvPartners)
     SuperRecyclerView mPartners;
 
+    ActionBarDrawerToggle mDrawerToggle;
+
     ResPartner mResPartner;
     PartnersAdapter mAdapter;
 
     MainActivity mActivity;
     Handler mHandler;
-    Utils mUtils;
-    ISyncFinishReceiver syncFinishReceiver = new ISyncFinishReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // Sync Finished
-            mPartners.post(new Runnable() {
-                @Override
-                public void run() {
-                    mPartners.setRefreshing(false);
-                }
-            });
-            mAdapter.notifyDataSetChanged();
-        }
-    };
 
     public PartnersFragment() {
         // Required empty public constructor
@@ -82,7 +65,6 @@ public class PartnersFragment extends AppBaseFragment implements LoaderManager.L
         super.onCreate(savedInstanceState);
         mActivity = (MainActivity) getActivity();
         mHandler = new Handler();
-        mUtils = Utils.getInstance();
         mResPartner = new ResPartner(mActivity, user());
     }
 
@@ -98,25 +80,6 @@ public class PartnersFragment extends AppBaseFragment implements LoaderManager.L
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         setupViews();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mActivity.registerReceiver(syncFinishReceiver,
-                new IntentFilter(ISyncFinishReceiver.SYNC_FINISH));
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        try {
-            mActivity.unregisterReceiver(syncFinishReceiver);
-        } catch (Exception e) {
-            // Skipping issue related to unregister receiver
-            e.printStackTrace();
-        }
-
     }
 
     @Override
@@ -140,14 +103,38 @@ public class PartnersFragment extends AppBaseFragment implements LoaderManager.L
         getLoaderManager().initLoader(0, null, PartnersFragment.this);
     }
 
-    public void setupViews() {
-        mActivity.setSupportActionBar(mToolbar);
-        mActivity.setTitle("Partners");
-        setupPartners();
+    @Override
+    public void onSyncFinished() {
+        super.onSyncFinished();
+        mPartners.post(new Runnable() {
+            @Override
+            public void run() {
+                mPartners.setRefreshing(false);
+            }
+        });
+        getLoaderManager().restartLoader(0, null, PartnersFragment.this);
+        mAdapter.notifyDataSetChanged();
     }
 
-    public SyncUtils sync() {
-        return SyncUtils.get(mActivity);
+    public void setupViews() {
+        mActivity.setSupportActionBar(mToolbar);
+
+        ActionBar actionBar = mActivity.getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        mDrawerToggle = new ActionBarDrawerToggle(
+                mActivity,
+                mActivity.getDrawerLayout(),
+                mToolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
+        );
+        mActivity.getDrawerLayout().addDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+
+        setupPartners();
     }
 
     public void setupPartners() {

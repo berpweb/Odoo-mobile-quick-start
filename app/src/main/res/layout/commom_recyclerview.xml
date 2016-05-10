@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_empty="@layout/base_no_items_view"
+        app:layout_empty="@layout/no_items_view"
         app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"
         app:recyclerClipToPadding="false"
         app:scrollbarStyle="insideInset" />

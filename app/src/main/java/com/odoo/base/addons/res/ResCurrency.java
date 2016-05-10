@@ -20,6 +20,7 @@
 package com.odoo.base.addons.res;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.odoo.core.orm.ODataRow;
 import com.odoo.core.orm.OModel;
@@ -29,6 +30,8 @@ import com.odoo.core.support.OUser;
 
 public class ResCurrency extends OModel {
     public static final String TAG = ResCurrency.class.getSimpleName();
+    public static final String AUTHORITY = "com.odoo.core.provider.res_currency";
+
     OColumn name = new OColumn("Name", OVarchar.class);
     OColumn symbol = new OColumn("Symbol", OVarchar.class).setSize(10);
 
@@ -40,6 +43,11 @@ public class ResCurrency extends OModel {
         ResCurrency resCurrency = new ResCurrency(context, null);
         ODataRow row = resCurrency.browse(row_id);
         return (row != null) ? row.getString("symbol") : "";
+    }
+
+    @Override
+    public Uri uri() {
+        return buildURI(AUTHORITY);
     }
 
     @Override

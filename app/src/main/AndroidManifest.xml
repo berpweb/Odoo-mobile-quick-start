@@ -98,22 +98,98 @@
 
         <!-- Sync Provider & Service  // -->
         <provider
-            android:name=".addons.customers.providers.CustomersSyncProvider"
-            android:authorities="com.odoo.core.provider.res_partner"
-            android:label="@string/sync_label_customers"
+            android:name=".addons.partners.providers.CompanySyncProvider"
+            android:authorities="com.odoo.core.provider.res_company"
+            android:label="@string/table_res_company"
             android:multiprocess="true" />
 
         <service
-            android:name=".addons.customers.services.CustomerSyncService"
+            android:name=".addons.partners.services.CompanySyncService"
             android:exported="true"
-            android:process=":sync_customer">
+            android:process=":sync_company">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
 
             <meta-data
                 android:name="android.content.SyncAdapter"
-                android:resource="@xml/customer_sync_adapter" />
+                android:resource="@xml/company_sync_adapter" />
+        </service>
+
+        <provider
+            android:name=".addons.partners.providers.CountrySyncProvider"
+            android:authorities="com.odoo.core.provider.res_country"
+            android:label="@string/table_res_country"
+            android:multiprocess="true" />
+
+        <service
+            android:name=".addons.partners.services.CountrySyncService"
+            android:exported="true"
+            android:process=":sync_country">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/country_sync_adapter" />
+        </service>
+
+        <provider
+            android:name=".addons.partners.providers.CurrencySyncProvider"
+            android:authorities="com.odoo.core.provider.res_currency"
+            android:label="@string/table_res_currency"
+            android:multiprocess="true" />
+
+        <service
+            android:name=".addons.partners.services.CurrencySyncService"
+            android:exported="true"
+            android:process=":sync_currency">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/currency_sync_adapter" />
+        </service>
+
+        <provider
+            android:name=".addons.partners.providers.PartnersSyncProvider"
+            android:authorities="com.odoo.core.provider.res_partner"
+            android:label="@string/table_res_partner"
+            android:multiprocess="true" />
+
+        <service
+            android:name=".addons.partners.services.PartnersSyncService"
+            android:exported="true"
+            android:process=":sync_partner">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/partner_sync_adapter" />
+        </service>
+
+        <provider
+            android:name=".addons.partners.providers.UsersSyncProvider"
+            android:authorities="com.odoo.core.provider.res_users"
+            android:label="@string/table_res_user"
+            android:multiprocess="true" />
+
+        <service
+            android:name=".addons.partners.services.UsersSyncService"
+            android:exported="true"
+            android:process=":sync_users">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/users_sync_adapter" />
         </service>
 
         <service

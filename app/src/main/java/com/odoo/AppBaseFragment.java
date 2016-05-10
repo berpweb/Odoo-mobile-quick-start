@@ -1,6 +1,9 @@
 package com.odoo;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -9,7 +12,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.odoo.core.service.receivers.ISyncFinishReceiver;
 import com.odoo.core.support.OUser;
+import com.odoo.core.support.sync.SyncUtils;
 
 import odoo.Odoo;
 import odoo.handler.OdooVersionException;
@@ -30,8 +35,22 @@ public class AppBaseFragment extends Fragment {
     private AlertDialog mLocationAlert;
     private boolean isOdooAuthenticated = false;
 
+    private ISyncFinishReceiver syncFinishReceiver = new ISyncFinishReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Sync Finished
+            onSyncFinished();
+        }
+    };
+
     public AppBaseFragment() {
         // Required empty public constructor
+    }
+
+    /**
+     * onSyncFinished will get called when syncService get destroyed.
+     */
+    public void onSyncFinished() {
     }
 
     @Override
@@ -44,9 +63,22 @@ public class AppBaseFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
         baseCreateOdooInstance(false);
+        mActivity.registerReceiver(syncFinishReceiver,
+                new IntentFilter(ISyncFinishReceiver.SYNC_FINISH));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            mActivity.unregisterReceiver(syncFinishReceiver);
+        } catch (Exception e) {
+            // Skipping issue related to unregister receiver
+            e.printStackTrace();
+        }
     }
 
     public void baseCreateOdooInstance(boolean createOdooInstance) {
@@ -69,6 +101,14 @@ public class AppBaseFragment extends Fragment {
             }
         }
         mLocationAlert = mUtils.checkLocationSettings(mActivity);
+    }
+
+    public Utils utils() {
+        return mUtils;
+    }
+
+    public SyncUtils sync() {
+        return SyncUtils.get(mActivity);
     }
 
     public OUser user() {

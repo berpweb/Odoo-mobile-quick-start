@@ -20,6 +20,7 @@
 package com.odoo.base.addons.res;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.odoo.core.orm.OModel;
 import com.odoo.core.orm.fields.OColumn;
@@ -28,6 +29,7 @@ import com.odoo.core.support.OUser;
 
 public class ResUsers extends OModel {
     public static final String TAG = ResUsers.class.getSimpleName();
+    public static final String AUTHORITY = "com.odoo.core.provider.res_users";
 
     OColumn name = new OColumn("Name", OVarchar.class);
     OColumn login = new OColumn("User Login name", OVarchar.class);
@@ -39,6 +41,11 @@ public class ResUsers extends OModel {
     public static int myId(Context context) {
         ResUsers users = new ResUsers(context, null);
         return users.selectRowId(users.getUser().getUserId());
+    }
+
+    @Override
+    public Uri uri() {
+        return buildURI(AUTHORITY);
     }
 
     @Override

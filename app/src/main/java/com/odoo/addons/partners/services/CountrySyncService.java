@@ -15,44 +15,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http:www.gnu.org/licenses/>
  * <p/>
- * Created on 31/12/14 6:43 PM
+ * Created on 2/1/15 11:07 AM
  */
-package com.odoo.base.addons.res;
+package com.odoo.addons.partners.services;
 
 import android.content.Context;
-import android.net.Uri;
+import android.os.Bundle;
 
-import com.odoo.core.orm.OModel;
-import com.odoo.core.orm.fields.OColumn;
-import com.odoo.core.orm.fields.types.OVarchar;
+import com.odoo.base.addons.res.ResCountry;
+import com.odoo.core.service.OSyncAdapter;
+import com.odoo.core.service.OSyncService;
 import com.odoo.core.support.OUser;
 
-public class ResCountry extends OModel {
-    public static final String AUTHORITY = "com.odoo.core.provider.res_country";
+public class CountrySyncService extends OSyncService {
+    public static final String TAG = CountrySyncService.class.getSimpleName();
 
-    OColumn name = new OColumn("Name", OVarchar.class).setSize(100);
-
-    public ResCountry(Context context, OUser user) {
-        super(context, "res.country", user);
+    @Override
+    public OSyncAdapter getSyncAdapter(OSyncService service, Context context) {
+        return new OSyncAdapter(context, ResCountry.class, service, true);
     }
 
     @Override
-    public Uri uri() {
-        return buildURI(AUTHORITY);
-    }
-
-    @Override
-    public boolean allowCreateRecordOnServer() {
-        return false;
-    }
-
-    @Override
-    public boolean allowUpdateRecordOnServer() {
-        return false;
-    }
-
-    @Override
-    public boolean allowDeleteRecordInLocal() {
-        return false;
+    public void performDataSync(OSyncAdapter adapter, Bundle extras, OUser user) {
+        // adapter.syncDataLimit(80);
     }
 }

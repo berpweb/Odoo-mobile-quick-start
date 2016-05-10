@@ -20,6 +20,21 @@
     <string name="toast_record_deleted">Record deleted</string>
     <!-- Framework Strings END -->
 
+    <!-- Framework Table related strings BEGIN -->
+    <string name="table_res_company">ResCompany</string>
+    <string name="table_res_country">ResCountry</string>
+    <string name="table_res_currency">ResCurrency</string>
+    <string name="table_res_partner">ResPartner</string>
+    <string name="table_res_user">ResUsers</string>
+    <!-- Framework Table related strings END -->
+
+    <!-- Fragment name related strings BEGIN -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="fragment_partners">Partners</string>
+    <string name="fragment_sync">Sync</string>
+    <!-- Fragment name related strings END -->
+
     <!-- Network Connection Strings BEGIN -->
     <string name="network_alert_title">Internet Connection Disabled</string>
     <string name="network_alert_message">Turn on Internet Connection</string>
