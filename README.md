@@ -5,10 +5,10 @@
 Odoo Mobile Quick Start Demo
 ==============================
 
-This Reposatory contains basic demo about
+This Reposatory contains basic demos about
 
 - RecyclerView implementation of `ResPartner` model.
-- Sync demo
+- Sync.
 - Basic Helper methods and Tweaks inside Odoo-Mobile Framework for ease of use.
 
 HOW TO START
