@@ -196,7 +196,7 @@ public class PartnersFragment extends AppBaseFragment implements LoaderManager.L
         public PartnersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return new PartnersViewHolder(
                     LayoutInflater.from(parent.getContext())
-                            .inflate(R.layout.customer_row_item, parent, false)
+                            .inflate(R.layout.partner_row_item, parent, false)
             );
         }
 
