@@ -113,7 +113,7 @@ public class PartnersFragment extends AppBaseFragment implements LoaderManager.L
             }
         });
         getLoaderManager().restartLoader(0, null, PartnersFragment.this);
-        mAdapter.notifyDataSetChanged();
+        // mAdapter.notifyDataSetChanged();
     }
 
     public void setupViews() {
