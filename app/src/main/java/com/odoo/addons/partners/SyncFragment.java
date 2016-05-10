@@ -1,6 +1,5 @@
 package com.odoo.addons.partners;
 
-
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
